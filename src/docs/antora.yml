@@ -1,0 +1,13 @@
+name: sds-documentation
+title: SDS Documentation
+version: master
+start_page: ROOT:index.adoc
+#nav:
+  #- modules/ROOT/nav.adoc
+  #- modules/concepts/nav.adoc
+  #- modules/dtr/nav.adoc
+  #- modules/catalog/nav.adoc
+  #- modules/transports/nav.adoc
+  #- modules/migration/nav.adoc
+  #- modules/appendix/nav.adoc
+  #- modules/legal/nav.adoc
