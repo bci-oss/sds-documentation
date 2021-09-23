@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Java Tooling for Working with Aspect Models :: Open Manufacturing Platform - Semantic Data Structuring Working Group</title>
+    <link rel="canonical" href="https://openmanufacturingplatform.github.io/sds-documentation/sds-developer-guide/1.0.0/tooling-guide/java-aspect-tooling.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://openmanufacturingplatform.github.io/sds-documentation">
+        <div class="logo-headline-wrapper">
+          <img class="logo" src="../../../_/img/omp-logo.png" />
+          <span class="docu-title">
+            Open Manufacturing Platform - Semantic Data Structuring Working Group
+          </span>
+        </div>
+      </a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <input id="search-input" type="text" placeholder="Search docs">
+        </div>
+      </div>
+    </div>
+  </nav>
+</header><div class="body">
+<div class="nav-container" data-component="sds-developer-guide" data-version="1.0.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">SDS SDK Developer Guide</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Tooling Guide</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="bamm-cli.html">BAMM CLI</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="java-aspect-tooling.html">Java Tooling for Aspect Models</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">SDS SDK Developer Guide</span>
+    <span class="version">1.0.0</span>
+  </div>
+  <ul class="components">
+    <li class="component">
+      <a class="title" href="../../../bamm-specification/snapshot/index.html">BAMM Aspect Meta Model</a>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../bamm-specification/snapshot/index.html">snapshot</a>
+        </li>
+        <li class="version">
+          <a href="../../../bamm-specification/v1.0.0/index.html">v1.0.0</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <a class="title" href="../../../sds-documentation/index.html">SDS Documentation</a>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../sds-documentation/index.html">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component is-current">
+      <a class="title" href="../index.html">SDS SDK Developer Guide</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">1.0.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../../../sds-documentation/index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">SDS SDK Developer Guide</a></li>
+    <li>Tooling Guide</li>
+    <li><a href="java-aspect-tooling.html">Java Tooling for Aspect Models</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/OpenManufacturingPlatform/sds-sdk/edit/main/documentation/developer-guide/modules/tooling-guide/pages/java-aspect-tooling.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Java Tooling for Working with Aspect Models</h1>
+<div class="sect1">
+<h2 id="general-considerations"><a class="anchor" href="#general-considerations"></a>General Considerations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this section, the Java APIs for working with Aspect Models are described. All of the components described in the
+following subsections can either be included in your project using a dedicated dependency (as described in the
+respective subsection), <em>or</em> you can use the <code>aspect-model-starter</code> artifact that aggregates all necessary dependencies:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Maven</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-maven hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.openmanufacturing&lt;/groupId&gt;
+    &lt;artifactId&gt;sds-aspect-model-starter&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Groovy DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation 'io.openmanufacturing:sds-aspect-model-starter:1.0.0'</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Kotlin DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation("io.openmanufacturing:sds-aspect-model-starter:1.0.0")</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The error handling in many APIs is done using the
+<code><a href="https://javadoc.io/doc/io.vavr/vavr/0.9.2/io/vavr/control/Try.html">Try</a></code> type provided by the Java library <em>Vavr</em>. This
+is similar to a <code>java.lang.Optional</code> in that a successful result can be processed using <code>.map()</code> or <code>.flatMap()</code>, but if
+an error occurs, the object can also provide the original exception. Compared with throwing exceptions, using a <code>Try&lt;T&gt;</code>
+as a return type instead has the advantage of enabling composable and better readable code. Please see the
+<a href="https://www.vavr.io/vavr-docs/">Vavr User Guide</a> for more information.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="parsing-aspect-model-urns"><a class="anchor" href="#parsing-aspect-model-urns"></a>Parsing Aspect Model URNs</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>aspect-model-urn</code> artifact provides a way to parse and validate Aspect model element URNs as described in the
+<a href="../../../bamm-specification/snapshot/namespaces.html" class="page">specification</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.openmanufacturing.sds.aspectmodel.urn.AspectModelUrn;
+
+final AspectModelUrn urn = AspectModelUrn.fromUrn( "urn:bamm:com.example:1.0.0#Example" );
+
+System.out.println( urn.getNamespace() ); // com.example
+System.out.println( urn.getName() );      // Example
+System.out.println( urn.getVersion() );   // 1.0.0
+System.out.println( urn.getUrnPrefix() ); // urn:bamm:com.example:1.0.0#</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To include the artifact, use the following dependencies:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Maven</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-maven hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.openmanufacturing&lt;/groupId&gt;
+    &lt;artifactId&gt;sds-aspect-model-urn&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Groovy DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation 'io.openmanufacturing:sds-aspect-model-urn:1.0.0'</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Kotlin DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation("io.openmanufacturing:sds-aspect-model-urn:1.0.0")</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="loading-and-saving"><a class="anchor" href="#loading-and-saving"></a>Loading and Saving Aspect Models</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Aspect models are, like their Meta Model, described using the Resource Description Format (RDF,
+<a href="../../../bamm-specification/snapshot/appendix/appendix.html#rdf11" class="page">[rdf11]</a>) and the Terse RDF Triple Language syntax (TTL,
+<a href="../../../bamm-specification/snapshot/appendix/appendix.html#turtle" class="page">[turtle]</a>). There are two ways of working with Aspect models:
+Either the model is loaded as an RDF model where the abstraction level directly corresponds to the RDF/Turtle
+serialization, or the RDF is parsed into a native Java Aspect model representation where the abstraction level
+corresponds to the BAMM concepts. Both approaches have different use cases and advantages and both are supported by the
+Aspect model Java tooling:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Working on the RDF level</th>
+<th class="tableblock halign-left valign-top">Using the Java Aspect model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Low level, focus on power and flexibility</p>
+</li>
+<li>
+<p>Flexibly navigate and filter the model on the RDF statements level</p>
+</li>
+<li>
+<p>Work with models that are valid RDF, but incomplete Aspect models, e.g. in Aspect model editors</p>
+</li>
+<li>
+<p>Use SPARQL <a href="../../../bamm-specification/snapshot/appendix/appendix.html#sparql" class="page">[sparql]</a> to execute complex queries on Aspect models</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>High level, focus on convenience and type-safety</p>
+</li>
+<li>
+<p>Use Aspect-model specific interfaces for type-safe code</p>
+</li>
+<li>
+<p>Use Java-native data types (e.g. <code>java.math.BigInteger</code> for <code>xsd:integer</code>)</p>
+</li>
+<li>
+<p>Easily traverse the model on the abstraction level of Aspect model elements</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>As a rule of thumb, if your use case mostly consists of <em>consuming</em> Aspect models, you should prefer the Java Aspect
+model, if you <em>create</em> or <em>edit</em> Aspect models, this is better done using the RDF API.</p>
+</div>
+<div class="sect2">
+<h3 id="understanding-model-resolution"><a class="anchor" href="#understanding-model-resolution"></a>Understanding Model Resolution</h3>
+<div class="paragraph">
+<p>Loading an Aspect model in either the RDF-based or the Java Aspect model-based APIs does not only comprise parsing the
+Turtle file, but also the resolution of elements on the RDF level:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>An Aspect model refers to meta model elements (everything that starts with <code>bamm:</code>), and can refer to namespaces of
+shared elements (<code>bamm-c</code>, <code>bamm-e</code> and <code>unit</code>)</p>
+</li>
+<li>
+<p>It can also refer to elements from other Aspect models or model elements defined in separate Turtle files</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You use the <em>model resolver</em> to load an Aspect model, which takes care of the first point: The used meta model elements
+and elements from shared namespaces are automatically resolved and added to the loaded RDF model. For the second point,
+you need to provide the model resolver with the information on where to find other Aspect models: In memory, in a local
+file system, in a remote model repository etc. This is done using a <em>resolution strategy</em>, which is a function from some
+type <code>T</code> to a <code>Try</code> of a RDF model. Several commonly used resolution strategies are readily available:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>FileSystemStrategy</code> resolves a <code>java.nio.file.Path</code> for a file relative
+to the <a href="bamm-cli.html#models-directory-structure" class="page">models directory</a></p>
+</li>
+<li>
+<p>The <code>UrnFileSystemStrategy</code> resolves a
+<a href="#parsing-aspect-model-urns">AspectModelUrn</a> to a file in the <a href="bamm-cli.html#models-directory-structure" class="page">models directory</a></p>
+</li>
+<li>
+<p>The <code>InMemoryStrategy</code> resolves a model against an already loaded Apache Jena RDF model</p>
+</li>
+<li>
+<p>The <code>SequenceStrategy</code> can be used to chain two different strategies of the same type</p>
+</li>
+<li>
+<p>The <code>EitherStrategy</code> can be used to chain two different strategies of different types</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To implement custom resolution strategies (e.g., to resolve models against a different blob storage API), you can base
+your implementation on the <code>AbstractResolutionStrategy</code>. Using the model resolver requires at least one resolution
+strategy that can resolve <code>AspectModelUrn</code>&#8203;s (because references in an Aspect model to external model elements use
+their respective URNs) and can use another resolution strategy, for example for file paths. The following sections show
+examples for the different variants.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="loading-an-aspect-model-rdf-level"><a class="anchor" href="#loading-an-aspect-model-rdf-level"></a>Loading an Aspect Model to work on the RDF Level</h3>
+<div class="paragraph">
+<p>Consider the following example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFList;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ResourceFactory;
+import org.apache.jena.vocabulary.RDF;
+
+import io.openmanufacturing.sds.aspectmodel.resolver.AspectModelResolver;
+import io.openmanufacturing.sds.aspectmodel.resolver.FileSystemStrategy;
+import io.openmanufacturing.sds.aspectmodel.resolver.ResolutionStrategy;
+import io.openmanufacturing.sds.aspectmetamodel.KnownVersion;
+import io.openmanufacturing.sds.aspectmodel.urn.AspectModelUrn;
+
+import io.vavr.control.Either;
+
+final Path modelsRoot = Paths.get( "/path/to/models-root" );
+final ResolutionStrategy fileSystemStrategy = new FileSystemStrategy( modelsRoot ); <i class="conum" data-value="1"></i><b>(1)</b>
+
+new AspectModelResolver()
+      .resolveAspectModel( fileSystemStrategy,
+            AspectModelUrn.fromUrn( "urn:bamm:io.openmanufacturing.test:1.0.0#Example" ) )
+      .forEach( versionedModel -&gt; {
+         final KnownVersion metaModelVersion = versionedModel.getVersion();
+         final Model model = versionedModel.getModel();
+
+         // Do something with the RDF model:
+         // List the names of the Properties of the Aspect in the model
+         final String bammPrefix = String.format( "urn:bamm:io.openmanufacturing:meta-model:%s#",
+               metaModelVersion.toVersionString() );
+         final Resource aspectClassResource = ResourceFactory.createResource( bammPrefix + "Aspect" );
+         final Property propertiesResource = ResourceFactory.createProperty( bammPrefix + "properties" );
+         final Resource aspectResource = model <i class="conum" data-value="2"></i><b>(2)</b>
+               .listStatements( null, RDF.type, aspectClassResource )
+               .nextStatement()
+               .getSubject();
+         model.listStatements( aspectResource, propertiesResource, (RDFNode) null ) <i class="conum" data-value="3"></i><b>(3)</b>
+              .nextStatement()
+              .getObject()
+              .as( RDFList.class )
+              .asJavaList()
+              .stream()
+              .map( RDFNode::asResource )
+              .map( Resource::getLocalName )
+              .forEach( System.out::println );
+      } );</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The example uses the <code>FileSystemStrategy</code> to refer to an Aspect model file in a local file system, following the <a href="bamm-cli.html#models-directory-structure" class="page">models directory</a> structure.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The RDF resource for the Aspect is retrieved from the RDF model, and</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>used to print the Aspect&#8217;s Properties.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To include the model resolver artifact, use the following dependencies:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Maven</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-maven hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.openmanufacturing&lt;/groupId&gt;
+    &lt;artifactId&gt;sds-aspect-model-resolver&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Groovy DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation 'io.openmanufacturing:sds-aspect-model-resolver:1.0.0'</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Kotlin DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation("io.openmanufacturing:sds-aspect-model-resolver:1.0.0")</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="loading-an-aspect-model-java-model-level"><a class="anchor" href="#loading-an-aspect-model-java-model-level"></a>Loading an Aspect Model to work on the Java Aspect Model Level</h3>
+<div class="paragraph">
+<p>Consider the following example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import io.openmanufacturing.sds.aspectmodel.resolver.AspectModelResolver;
+import io.openmanufacturing.sds.aspectmodel.resolver.FileSystemStrategy;
+import io.openmanufacturing.sds.aspectmodel.resolver.ResolutionStrategy;
+import io.openmanufacturing.sds.aspectmodel.urn.AspectModelUrn;
+import io.openmanufacturing.sds.metamodel.IsDescribed;
+import io.openmanufacturing.sds.metamodel.loader.AspectModelLoader;
+
+final Path modelsRoot = Paths.get( "/path/to/models-root" );
+final ResolutionStrategy fileSystemStrategy = new FileSystemStrategy( modelsRoot ); <i class="conum" data-value="1"></i><b>(1)</b>
+
+new AspectModelResolver()
+      .resolveAspectModel( fileSystemStrategy,
+            AspectModelUrn.fromUrn( "urn:bamm:io.openmanufacturing.test:1.0.0#Example" ) )
+      .flatMap( AspectModelLoader::fromVersionedModel ) <i class="conum" data-value="2"></i><b>(2)</b>
+      .forEach( aspect -&gt; <i class="conum" data-value="3"></i><b>(3)</b>
+            aspect.getProperties().stream()
+                  .map( IsDescribed::getName )
+                  .forEach( System.out::println ) );</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The example uses the <code>FileSystemStrategy</code> to refer to an Aspect model file in a local file system, following the <a href="bamm-cli.html#models-directory-structure" class="page">models directory</a> structure.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The Aspect Loader turns the RDF model into the Java Aspect model representation.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The Java model is used to print the Aspect&#8217;s Properties.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To include the Java Aspect model artifact, use the following dependencies:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Maven</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-maven hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.openmanufacturing&lt;/groupId&gt;
+    &lt;artifactId&gt;sds-aspect-meta-model-java&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Groovy DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation 'io.openmanufacturing:sds-aspect-meta-model-java:1.0.0'</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Kotlin DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation("io.openmanufacturing:sds-aspect-meta-model-java:1.0.0")</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="serializing-an-aspect-model"><a class="anchor" href="#serializing-an-aspect-model"></a>Serializing a Java Aspect Model into a RDF/Turtle Aspect Model</h3>
+<div class="paragraph">
+<p>There are two serialization components available: One to turn a Java Aspect model into a Jena RDF model (the reverse
+operation of what the <code>AspectModelLoader</code> does) and one to serialize the resulting Jena RDF model in Turtle syntax,
+formatted according to the guidelines described in the BAMM specification.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import java.io.PrintWriter;
+
+import org.apache.jena.rdf.model.Model;
+
+import io.openmanufacturing.sds.aspectmodel.resolver.services.VersionedModel;
+import io.openmanufacturing.sds.aspectmodel.serializer.PrettyPrinter;
+import io.openmanufacturing.sds.aspectmodel.serializer.RdfModelCreatorVisitor;
+import io.openmanufacturing.sds.aspectmodel.urn.AspectModelUrn;
+import io.openmanufacturing.sds.metamodel.Aspect;
+import io.openmanufacturing.sds.metamodel.vocabulary.Namespace;
+
+// Aspect as created by the AspectModelLoader
+final Aspect aspect = ...
+
+// First step: Turn Java Aspect model into a Jena RDF model
+final Namespace aspectNamespace = () -&gt; aspect.getAspectModelUrn().toString();
+final RdfModelCreatorVisitor rdfCreator = new RdfModelCreatorVisitor(
+      aspect.getMetaModelVersion(), aspectNamespace );
+final Model model = rdfCreator.visit( aspect );
+
+// At this point, you can manipulate the RDF model, if required
+
+// Second step: Serialize RDF model into nicely formatted Turtle
+final PrintWriter printWriter = new PrintWriter( System.out );
+final PrettyPrinter prettyPrinter = new PrettyPrinter( new VersionedModel( model, aspect.getMetaModelVersion() ),
+      aspectNamespace, printWriter );
+prettyPrinter.print();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To include the serializer artifact, use the following dependencies:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Maven</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-maven hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.openmanufacturing&lt;/groupId&gt;
+    &lt;artifactId&gt;sds-aspect-model-serializer&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Groovy DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation 'io.openmanufacturing:sds-aspect-model-serializer:1.0.0'</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Kotlin DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation("io.openmanufacturing:sds-aspect-model-serializer:1.0.0")</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="validating-aspect-models"><a class="anchor" href="#validating-aspect-models"></a>Validating Aspect Models</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Consider the following example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import java.util.stream.Collectors;
+
+import io.openmanufacturing.sds.aspectmodel.resolver.services.VersionedModel;
+import io.openmanufacturing.sds.aspectmodel.validation.report.ValidationError;
+import io.openmanufacturing.sds.aspectmodel.validation.report.ValidationReport;
+import io.openmanufacturing.sds.aspectmodel.validation.services.AspectModelValidator;
+
+import io.vavr.control.Try;
+
+// Versioned model as returned by the AspectModelResolver
+final Try&lt;VersionedModel&gt; versionedModel = ...;
+
+final AspectModelValidator validator = new AspectModelValidator(); <i class="conum" data-value="1"></i><b>(1)</b>
+final ValidationReport validationReport = validator.validate( versionedModel );
+
+if ( validationReport.conforms() ) { <i class="conum" data-value="2"></i><b>(2)</b>
+   System.out.println( "The model is valid" );
+} else {
+   // The Validation Report indicates that the validation has failed.
+
+   // Variant 1: Call .toString() on the validationReport
+   System.out.println( validationReport.toString() ); <i class="conum" data-value="3"></i><b>(3)</b>
+
+   // Variant 2: Custom processing of different types of validation errors
+   final String customErrorMessage = validationReport.getValidationErrors().stream().&lt;String&gt; map(
+         validationError -&gt; validationError.accept( new ValidationError.Visitor&lt;&gt;() { <i class="conum" data-value="4"></i><b>(4)</b>
+            @Override
+            public String visit( final ValidationError.Syntactic error ) {
+               // Separately access line and column numbers of the syntax error
+               return "...";
+            }
+
+            @Override
+            public String visit( final ValidationError.Semantic error ) {
+               // Separately access focus node, result path, validator message and value
+               // of the error
+               return "...";
+            }
+
+            @Override
+            public String visit( final ValidationError.Processing error ) {
+               // Access the processing error message and stack trace of the error
+               return "...";
+            }
+         } ) ).collect( Collectors.joining( ", " ) );
+
+   System.out.println( customErrorMessage );
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>An Aspect model validator is created and its validation is called on the Aspect model.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <code>.conforms()</code> method can be used to checked if the model is valid or not.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>To retrieve a preformatted error message in case the Aspect model is invalid, the validation report can be turned into a String.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>If more flexibility is required, e.g. for creating error messages in different languages or formats such as JSON,
+the validation error can also accept an implementation of a <code>ValidationError.Visitor</code>, that distinguishes between the
+different types of validation failures: syntax errors, semantic errors (i.e., the input is valid RDF but violates the
+Aspect model contract) and processing errors (e.g., a file could not be accessed).</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To include the model validator, use the following dependencies:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Maven</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-maven hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.openmanufacturing&lt;/groupId&gt;
+    &lt;artifactId&gt;sds-aspect-model-validator&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Groovy DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation 'io.openmanufacturing:sds-aspect-model-validator:1.0.0'</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Kotlin DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation("io.openmanufacturing:sds-aspect-model-validator:1.0.0")</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="generating-documentation"><a class="anchor" href="#generating-documentation"></a>Generating Documentation for Aspect Models</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Different types of artifacts can be generated from an Aspect model. All corresponding generators are included in the
+following dependency:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Maven</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-maven hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.openmanufacturing&lt;/groupId&gt;
+    &lt;artifactId&gt;sds-aspect-model-document-generators&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Groovy DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation 'io.openmanufacturing:sds-aspect-model-document-generators:1.0.0'</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Kotlin DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation("io.openmanufacturing:sds-aspect-model-document-generators:1.0.0")</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The documentation generation APIs provide methods that take as an argument a <code>Function&lt;String, java.io.OutputStream&gt;</code>.
+This is a mapping function that takes a file name as an input (which is determined by the respective generator) and
+returns a corresponding <code>OutputStream</code>, for example (but not necessarily) a <code>FileOutputStream</code>. By providing this
+function when calling the generator method, you can control where the output is written to, even when the generator
+creates multiple files. For the code examples in the following subsections, we assume that the following method is
+defined for calling the generators:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">OutputStream outputStreamForName( final String aspectFileName ) {
+   // Create an OutputStream for the file name, e.g. a FileOutputStream
+   ...
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="generating-diagrams"><a class="anchor" href="#generating-diagrams"></a>Generating SVG or PNG Diagrams</h3>
+<div class="paragraph">
+<p>Using the <code>AspectModelDiagramGenerator</code>, automatically layouted diagrams can be created for Aspect models in the formats
+PNG, SVG and <a href="https://www.graphviz.org/">Graphviz/DOT</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.Locale;
+import java.util.Set;
+
+import io.openmanufacturing.sds.aspectmodel.diagramgenerator.AspectModelDiagramGenerator;
+import io.openmanufacturing.sds.aspectmodel.diagramgenerator.AspectModelDiagramGenerator.Format;
+import io.openmanufacturing.sds.aspectmodel.resolver.services.VersionedModel;
+
+// Versioned model as returned by the AspectModelResolver
+final VersionedModel versionedModel = ...
+
+final AspectModelDiagramGenerator generator = new AspectModelDiagramGenerator( versionedModel ); <i class="conum" data-value="1"></i><b>(1)</b>
+
+// Variant 1: Generate a diagram in SVG format using @en descriptions and preferredNames from the model
+final OutputStream output = new FileOutputStream( "..." );
+generator.generateDiagram( Format.SVG, Locale.ENGLISH, output ); <i class="conum" data-value="2"></i><b>(2)</b>
+output.close();
+
+// Variant 2: Generate diagrams in multiple formats, for all languages that are present in the model.
+generator.generateDiagrams( Set.of( Format.PNG, Format.SVG ), this::outputStreamForName ); <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The diagram generator is initialized with the loaded model.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The simple call for one output format and one language (i.e., descriptions and preferredNames of one locale) takes
+one output stream to write the image to.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>It is also possible to generate multiple diagrams, one for each combination of output format and language. For that,
+the set of target formats is given as well as a mapping function.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="generating-html-documentation"><a class="anchor" href="#generating-html-documentation"></a>Generating HTML Documentation</h3>
+<div class="paragraph">
+<p>A HTML reference documentation for an Aspect model can be generated as shown in the following code sample. The
+documentation contains an overview diagram and describes the model elements as specified in the Aspect model. Preferred
+names and descriptions in the respective language from the Aspect model are shown in the resulting document as part of
+each model element.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import java.io.OutputStream;
+
+import io.openmanufacturing.sds.aspectmodel.asciidoc.AspectModelDocumentationGenerator;
+import io.openmanufacturing.sds.aspectmodel.resolver.services.VersionedModel;
+
+// Versioned model as returned by the AspectModelResolver
+final VersionedModel versionedModel = ...
+
+final AspectModelDocumentationGenerator generator = new AspectModelDocumentationGenerator( versionedModel );
+generator.generateHtml( this::outputStreamForName );</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="generating-sample-json-payload"><a class="anchor" href="#generating-sample-json-payload"></a>Generating Sample JSON Payload</h3>
+<div class="paragraph">
+<p>The sample JSON payload generator is used to create a valid JSON payload for an Aspect model as it could be returned by
+an Aspect that implements that Aspect model. This follows the
+<a href="../../../bamm-specification/snapshot/payloads.html#mapping-to-json" class="page">mapping rules</a> as defined in the Meta Model specification.
+The generator uses <code>bamm:exampleValue</code>&#8203;s of Properties if present, otherwise random values corresponding to the
+respective data types are generated.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.openmanufacturing.sds.aspectmodel.generator.json.AspectModelJsonPayloadGenerator;
+
+// Versioned model as returned by the AspectModelResolver
+final VersionedModel versionedModel = ...
+
+final AspectModelJsonPayloadGenerator generator = new AspectModelJsonPayloadGenerator( versionedModel );
+
+// Variant 1: Direct generation into a String
+final String jsonString = generator.generateJson();
+
+// Variant 2: Generate using mapping function
+generator.generateJson( this::outputStreamForName );</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="generating-json-schema"><a class="anchor" href="#generating-json-schema"></a>Generating JSON Schema</h3>
+<div class="paragraph">
+<p>The JSON schema generator creates a <a href="https://json-schema.org/">JSON Schema</a> that describes the payload for an Aspect model
+as it could be returned by an Aspect that implements that Aspect model. Currently, the generated schema corresponds to</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import java.io.ByteArrayOutputStream;
+import io.openmanufacturing.sds.aspectmodel.generator.jsonschema.AspectModelJsonSchemaGenerator;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+// Aspect as created by the AspectModelLoader
+final Aspect aspect = ...
+
+// Generate the JSON Schema
+final AspectModelJsonSchemaGenerator generator = new AspectModelJsonSchemaGenerator();
+final JsonNode jsonSchema = generator.apply( aspect );
+
+// If needed, print or pretty print it into a string
+final ByteArrayOutputStream out = new ByteArrayOutputStream();
+final ObjectMapper objectMapper = new ObjectMapper();
+
+objectMapper.writerWithDefaultPrettyPrinter().writeValue( out, jsonSchema );
+final String result = out.toString();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="generating-openapi-specification"><a class="anchor" href="#generating-openapi-specification"></a>Generating OpenAPI Specification</h3>
+<div class="paragraph">
+<p>The OpenAPI specification generator creates either a <a href="https://json-schema.org/">JSON Schema</a> or a <a href="https://yaml.org/">Yaml Spec</a>
+that specifies an Aspect regarding to the <a href="https://github.com/OAI/OpenAPI-Specification/">OpenApi specification</a>.
+The currently used versions corresponds <a href="https://json-schema.org/specification-links.html#draft-4">Draft 4</a> of the JSON Schema specification,
+and <a href="https://github.com/OAI/OpenAPI-Specification/blob/3.0.1/versions/3.0.1.md">3.0.1</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import java.util.Optional;
+import java.io.ByteArrayOutputStream;
+import io.openmanufacturing.sds.aspectmodel.generator.openapi.AspectModelOpenApiGenerator;
+import io.openmanufacturing.sds.aspectmodel.generator.openapi.PagingOption;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+// Aspect as created by the AspectModelLoader
+final Aspect aspect = ...
+
+//Server url i.e. http://www.example.com
+final String baseUrl = ...
+
+// The resource path which shall be added i.e. /testPath/{parameter}
+final String resourcePath = ...
+
+// A String containing all the information for in the resource path mentioned dynamic properties. The string must be syntactially valid YAML.
+// A definition for a dynamic property is mandatory as you won't be able to define which sort of data have to be used.
+// I.e for the above used path:
+//parameter:
+//  name: parameter
+//  in: path
+//  description: A parameter.
+//  required: true
+//  schema:
+//    type: string
+final Optional&lt;String&gt; yamlProperties = ...
+
+//If the query api shall be added to the generated specification.
+final boolean includeQueryApi = ...
+
+// The paging Option to be chosen. In case paging is possible: default for a time related collection is time-based paging.
+// Otherwise the default is offset-based paging.
+final Optional&lt;PagingOption&gt; pagingOption = ...
+
+// Generate pretty-printed YAML
+final AspectModelOpenApiGenerator generator = new AspectModelOpenApiGenerator();
+final String yaml = generator.applyForYaml( aspect, useSemanticVersion, baseUrl, resourcePath, yamlProperties, includeQueryApi, pagingOption );
+
+
+//A JsonNode containing all the information for in the resource path mentioned variable properties.
+final final Optional&lt;JsonNode&gt; jsonProperties = ...
+
+// Generate the JSON
+final AspectModelOpenApiGenerator generator = new AspectModelOpenApiGenerator();
+final JsonNode json = generator.apply( aspect, useSemanticVersion, baseUrl, resourcePath, jsonProperties, includeQueryApi, pagingOption );
+
+// If needed, print or pretty print it into a string
+final ByteArrayOutputStream out = new ByteArrayOutputStream();
+final ObjectMapper objectMapper = new ObjectMapper();
+
+objectMapper.writerWithDefaultPrettyPrinter().writeValue( out, json );
+final String result = out.toString();</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For Enumerations with complex data types, the values are modelled as instances of the Entity defined as the
+Enumeration&#8217;s data type (see {bamm-documentation-url}/v1.0.0/modeling-guidelines.html#declaring-enumerations[Declaring Enumerations]
+in the Modelling Guidelines for more information). In case the Entity instances contain Properties with a sorted collection
+as their data type, the order of the values of said collection in the Entity instances is not preserved in the generated
+OpenAPI specification. Preserving this order in OpenAPI is not possible at this point.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="generating-java-code"><a class="anchor" href="#generating-java-code"></a>Generating Java Code for Aspect Models</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Java code can be generated from an Aspect model in two ways:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The generated code represents the Aspect payload. Aspects and Entities become Java classes; their Properties become
+fields in the classes. Characteristics are not first-class elements, but are implicitly represented by the usage of
+corresponding data types (e.g. using <code>java.util.Set</code> as the type for the <code>Set</code> Characteristic of a Property) or
+<code>javax.validation</code> annotations. The generated classes can be used in a straightforward fashion, but they do not contain
+information about the underlying Aspect model such as its version number. Parts of the Aspect model that have no
+representation in its corresponding JSON payload are not part of those classes either, in particular descriptions and
+preferred names. These classes are called POJOs (Plain Old Java Objects), as they do not contain logic but serve mainly as data containers.</p>
+</li>
+<li>
+<p>The generated code represents the Aspect model itself: It is a type-safe variant of the model and includes every
+information that is also present in the model such as Characteristics, descriptions including language tags and original
+XSD data types. It is however not intended to store payload corresponding to an Aspect. Theses classes are called static
+meta classes, because they are created at compile time (<em>static</em>) and talk about the structure of the information, not
+the information itself (<em>meta</em>).</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Depending on the use case, you would either use one or both of the types simultaneously.</p>
+</div>
+<div class="paragraph">
+<p>To include the Java generator, use the following dependencies:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Maven</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-maven hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.openmanufacturing&lt;/groupId&gt;
+    &lt;artifactId&gt;sds-aspect-model-java-generator&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Groovy DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation 'io.openmanufacturing:sds-aspect-model-java-generator:1.0.0'</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Kotlin DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation("io.openmanufacturing:sds-aspect-model-java-generator:1.0.0")</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="type-mapping"><a class="anchor" href="#type-mapping"></a>Type Mapping</h3>
+<div class="paragraph">
+<p>In the Java code generated from an Aspect model, the scalar Aspect model
+<a href="../../../bamm-specification/snapshot/datatypes.html#data-types" class="page">data types</a> are mapped to native Java types. The following table
+lists the correspondences.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Aspect model type</th>
+<th class="tableblock halign-left valign-top">Java native type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:string</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.lang.String</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.lang.Boolean</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:decimal</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.math.BigDecimal</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:integer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.math.BigDecimal</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:double</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.lang.Double</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:float</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.lang.Float</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:date</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>javax.xml.datatype.XMLGregorianCalendar</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:time</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>javax.xml.datatype.XMLGregorianCalendar</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:dateTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>javax.xml.datatype.XMLGregorianCalendar</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:dateTimeStamp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>javax.xml.datatype.XMLGregorianCalendar</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:gYear</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>javax.xml.datatype.XMLGregorianCalendar</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:gMonth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>javax.xml.datatype.XMLGregorianCalendar</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:gDay</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>javax.xml.datatype.XMLGregorianCalendar</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:gYearMonth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>javax.xml.datatype.XMLGregorianCalendar</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:gMonthDay</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>javax.xml.datatype.XMLGregorianCalendar</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:duration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>javax.xml.datatype.Duration</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:yearMonthDuration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>javax.xml.datatype.Duration</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:dayTimeDuration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>javax.xml.datatype.Duration</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:byte</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.lang.Byte</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:short</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.lang.Short</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:int</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.lang.Integer</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:long</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.lang.Long</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:unsignedByte</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.lang.Short</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:unsignedShort</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.lang.Integer</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:unsignedInt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.lang.Long</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:unsignedLong</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.math.BigInteger</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:positiveInteger</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.math.BigInteger</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:nonNegativeInteger</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.math.BigInteger</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:negativeInteger</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.math.BigInteger</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:nonPositiveInteger</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.math.BigInteger</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:hexBinary</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>byte[]</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:base64Binary</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>byte[]</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>xsd:anyURI</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.net.URI</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bamm:curie</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>io.openmanufacturing.metamodel.datatypes.Curie</code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="generating-pojos"><a class="anchor" href="#generating-pojos"></a>Generating POJOs</h3>
+<div class="paragraph">
+<p>POJO generation is straightforward; there are two minor differences to the generation of documentation artifacts.
+Firstly, when instantiating the generator, you pass a flag indicating whether
+<a href="https://en.wikipedia.org/wiki/Jackson_(API)">Jackson</a> annotations should be generated in the class. Secondly, the name
+mapping function passed to the generation method takes a <code>QualifiedName</code> instead of a String, so that you can decide how
+to handle the package structure of the class.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import java.io.OutputStream;
+import io.openmanufacturing.sds.aspectmodel.java.QualifiedName;
+import io.openmanufacturing.sds.aspectmodel.java.pojo.AspectModelJavaGenerator;
+import io.openmanufacturing.sds.aspectmodel.resolver.services.VersionedModel;
+
+OutputStream outputStreamForName( final QualifiedName qualifiedName ) {
+   // Return an OutputStream for the qualified class name
+}
+
+// Versioned model as returned by the AspectModelResolver
+final VersionedModel versionedModel = ...
+
+// The boolean flag determines whether the generator should generate Jackson annotations
+final AspectModelJavaGenerator generator = new AspectModelJavaGenerator( versionedModel, true );
+generator.generate( this::outputStreamForName );</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="generating-static-meta-classes"><a class="anchor" href="#generating-static-meta-classes"></a>Generating Static Meta Classes</h3>
+<div class="paragraph">
+<p>For the generation of static meta classes, consider the following example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import java.io.OutputStream;
+import io.openmanufacturing.sds.aspectmodel.java.QualifiedName;
+import io.openmanufacturing.sds.aspectmodel.java.metamodel.StaticMetaModelJavaGenerator;
+import io.openmanufacturing.sds.aspectmodel.resolver.services.VersionedModel;
+
+OutputStream outputStreamForName( final QualifiedName qualifiedName ) {
+   // Return an OutputStream for the qualified class name
+}
+
+// Versioned model as returned by the AspectModelResolver
+final VersionedModel versionedModel = ...
+
+final StaticMetaModelJavaGenerator generator = new StaticMetaModelJavaGenerator( versionedModel );
+generator.generate( this::outputStreamForName );</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To use the generated static meta classes, you need the following additional dependency:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Maven</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-maven hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.openmanufacturing&lt;/groupId&gt;
+    &lt;artifactId&gt;sds-aspect-static-meta-model-java&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Groovy DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation 'io.openmanufacturing:sds-aspect-static-meta-model-java:1.0.0'</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Kotlin DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation("io.openmanufacturing:sds-aspect-static-meta-model-java:1.0.0")</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="migrate-meta-model-version"><a class="anchor" href="#migrate-meta-model-version"></a>Programmatically migrate the Meta Model Version</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The meta model version migrator provides functionality to automatically migrate an Aspect model that uses an older
+version of the Aspect Meta Model to an Aspect model that uses a newer (usually the latest) version of the meta model.</p>
+</div>
+<div class="paragraph">
+<p>This is shown in the following sample:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import java.util.function.Consumer;
+
+import io.openmanufacturing.sds.aspectmodel.resolver.AspectModelResolver;
+import io.openmanufacturing.sds.aspectmodel.resolver.services.VersionedModel;
+import io.openmanufacturing.sds.aspectmetamodel.KnownVersion;
+import io.openmanufacturing.sds.aspectmodel.versionupdate.Migrator;
+import io.openmanufacturing.sds.aspectmodel.versionupdate.Migrators;
+
+import io.vavr.control.Try;
+
+// Variant 1: Load an Aspect model and migrate it to the latest meta model version
+final Try&lt;VersionedModel&gt; updatedModel =
+   new AspectModelResolver().resolveAspectModel( /* see Loading an Aspect model */ ) <i class="conum" data-value="1"></i><b>(1)</b>
+      .flatMap( versionedModel -&gt; Migrators.updateMetaModelVersion( versionedModel, KnownVersion.getLatest() ) ); <i class="conum" data-value="2"></i><b>(2)</b>
+
+// Variant 2: Same as Variant 1, except also log a description of each migration step
+final Consumer&lt;Migrator&gt; observeMigrationStep = migrator -&gt; { <i class="conum" data-value="5"></i><b>(5)</b>
+   LOG.info( "Performed migration step from meta model version {} to {}: {}",
+         migrator.getInputPort().toVersionString(), migrator.getOutputPort().toVersionString(),
+         migrator.getDescription() );
+};
+
+final Try&lt;VersionedModel&gt; updatedModel2 =
+   new AspectModelResolver().resolveAspectModel( /* see Loading an Aspect model */ ) <i class="conum" data-value="3"></i><b>(3)</b>
+      .flatMap( versionedModel -&gt;
+            Migrators.updateMetaModelVersion( versionedModel, KnownVersion.getLatest(), observeMigrationStep ) ); <i class="conum" data-value="4"></i><b>(4)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>An Aspect model is <a href="#loading-an-aspect-model-rdf-level">loaded</a>, and</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code>Migrators#updateMetaModelVersion</code> is used to automatically migrate the model to the latest meta model version.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>In the second variant, an Aspect model is <a href="#loading-an-aspect-model-rdf-level">loaded</a>, and</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>the update function is called. This time, an additional argument is passed, namely a</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td><code>Consumer&lt;Migrator&gt;</code> that is used to receive a callback for each migration step.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To use the meta model version migrator, you need the following dependency:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Maven</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-maven hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.openmanufacturing&lt;/groupId&gt;
+    &lt;artifactId&gt;sds-aspect-meta-model-version-migrator&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Groovy DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation 'io.openmanufacturing:sds-aspect-meta-model-version-migrator:1.0.0'</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Kotlin DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation("io.openmanufacturing:sds-aspect-meta-model-version-migrator:1.0.0")</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="accessing-bamm-programmatically"><a class="anchor" href="#accessing-bamm-programmatically"></a>Accessing the BAMM programmatically</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In order to access the source RDF files that describe the BAMM vocabulary, shared Characteristics and Entities as well
+as Units, you can add a dependency to the <code>aspect-meta-model</code> artifact. Note that this artifact does not contain any
+Java classes.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Maven</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-maven hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.openmanufacturing&lt;/groupId&gt;
+    &lt;artifactId&gt;aspect-meta-model&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Groovy DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation 'io.openmanufacturing:aspect-meta-model:1.0.0'</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Gradle Kotlin DSL</dt>
+<dd>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-gradle hljs" data-lang="gradle">implementation("io.openmanufacturing:aspect-meta-model:1.0.0")</code></pre>
+</div>
+</div>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>In order to access the files via <code>java.lang.Class#getResourceAsStream</code>, you can refer to the following directory
+structure that is present in the artifact:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>.
+├── characteristic
+│   └── 1.0.0
+│       ├── characteristic-definitions.ttl
+│       ├── characteristic-instances.ttl
+│       ├── characteristic-shapes.ttl
+│       └── characteristic-validations.js
+├── entity
+│   └── 1.0.0
+│       ├── FileResource.ttl
+│       ├── ThreeDimensionalPosition.ttl
+│       └── TimeSeriesEntity.ttl
+├── meta-model
+│   └── 1.0.0
+│       ├── aspect-meta-model-definitions.ttl
+│       ├── aspect-meta-model-shapes.ttl
+│       ├── prefix-declarations.ttl
+│       └── type-conversions.ttl
+└── unit
+    └── 1.0.0
+        └── units.ttl</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+If you use the artifact <code>aspect-model-resolver</code> instead (see section <a href="#loading-and-saving">Loading and Saving Aspect Models</a> for infos on the
+dependency) you can directly refer to the RDF files using a resource URL:
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import java.io.InputStream;
+import java.net.URL;
+import java.util.Optional;
+import io.openmanufacturing.sds.aspectmodel.resolver.services.AspectMetaModelResourceResolver;
+import io.openmanufacturing.sds.aspectmodel.resolver.services.MetaModelUrls;
+import io.openmanufacturing.sds.aspectmetamodel.KnownVersion;
+import io.openmanufacturing.sds.aspectmodel.vocabulary.BAMM;
+
+final KnownVersion metaModelVersion = KnownVersion.BAMM_1_0_0;
+final AspectMetaModelResourceResolver resolver = new AspectMetaModelResourceResolver();
+final Optional&lt;URL&gt; characteristicDefinitionsUrl =
+      MetaModelUrls.url( "characteristic", metaModelVersion, "characteristic-instances.ttl" );
+characteristicDefinitionsUrl.ifPresent( url -&gt; {
+   final InputStream inputStream = resolver.openUrl( url );
+   resolver.loadTurtle( inputStream ).forEach( model -&gt; {
+      // Do something with the org.apache.jena.org.rdf.model.Model
+      final BAMM bamm = new BAMM( metaModelVersion );
+      final int numberOfCharacteristicInstances =
+            model.listStatements( null, RDF.type, bamm.Characteristic() ).toList().size();
+      System.out.println( "Meta Model Version " + metaModelVersion.toVersionString()
+            + " defines " + numberOfCharacteristicInstances + " Characteristic instances" );
+   } );
+} );</code></pre>
+</div>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script src="../../../_/js/vendor/lunr.min.js"></script>
+<script src="../../../_/js/vendor/search.js" id="search-script" data-base-path="../../.." data-page-path="/sds-developer-guide/1.0.0/tooling-guide/java-aspect-tooling.html"></script>
+<script async src="../../../_/../search-index.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

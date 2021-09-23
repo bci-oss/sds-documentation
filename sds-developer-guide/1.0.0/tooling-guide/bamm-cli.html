@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>BAMM CLI :: Open Manufacturing Platform - Semantic Data Structuring Working Group</title>
+    <link rel="canonical" href="https://openmanufacturingplatform.github.io/sds-documentation/sds-developer-guide/1.0.0/tooling-guide/bamm-cli.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://openmanufacturingplatform.github.io/sds-documentation">
+        <div class="logo-headline-wrapper">
+          <img class="logo" src="../../../_/img/omp-logo.png" />
+          <span class="docu-title">
+            Open Manufacturing Platform - Semantic Data Structuring Working Group
+          </span>
+        </div>
+      </a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <input id="search-input" type="text" placeholder="Search docs">
+        </div>
+      </div>
+    </div>
+  </nav>
+</header><div class="body">
+<div class="nav-container" data-component="sds-developer-guide" data-version="1.0.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">SDS SDK Developer Guide</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Tooling Guide</span>
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="bamm-cli.html">BAMM CLI</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="java-aspect-tooling.html">Java Tooling for Aspect Models</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">SDS SDK Developer Guide</span>
+    <span class="version">1.0.0</span>
+  </div>
+  <ul class="components">
+    <li class="component">
+      <a class="title" href="../../../bamm-specification/snapshot/index.html">BAMM Aspect Meta Model</a>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../bamm-specification/snapshot/index.html">snapshot</a>
+        </li>
+        <li class="version">
+          <a href="../../../bamm-specification/v1.0.0/index.html">v1.0.0</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <a class="title" href="../../../sds-documentation/index.html">SDS Documentation</a>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../sds-documentation/index.html">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component is-current">
+      <a class="title" href="../index.html">SDS SDK Developer Guide</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">1.0.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../../../sds-documentation/index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">SDS SDK Developer Guide</a></li>
+    <li>Tooling Guide</li>
+    <li><a href="bamm-cli.html">BAMM CLI</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/OpenManufacturingPlatform/sds-sdk/edit/main/documentation/developer-guide/modules/tooling-guide/pages/bamm-cli.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">BAMM CLI</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The BAMM CLI is a command line tool for the validation of Aspect models and the generation of artifacts, such as
+ documentation or code, from Aspect models.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Download latest version (The link will be updated once the BAMM CLI can be downloaded directly): <span class="icon"><i class="fa fa-download"></i></span> <a href="https://example.com">bamm-cli-1.0.0.jar</a>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="bamm-cli-getting-started"><a class="anchor" href="#bamm-cli-getting-started"></a>Running the BAMM CLI</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The basic way to run the tool is as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">java -jar bamm-cli-1.0.0.jar -i <em>AspectModel.ttl</em> <em>switch</em></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <em>switch</em> is one of the following:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 40%;">
+<col style="width: 60%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Switch</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--validate</code> or <code>-v</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Validate the Aspect model</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--generate-documentation</code> or <code>-html</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Generate HTML documentation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--generate-dot-diagram</code> or <code>-dot</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Generate diagram in <a href="https://www.graphviz.org/">Graphviz/DOT</a> format</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--generate-java-classes</code> or <code>-java</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Generate Java domain classes (POJOs)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--generate-json-payload</code> or <code>-json</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Generate sample JSON payload</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--generate-json-schema</code> or <code>-schema</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Generate JSON Schema</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--generate-openapi-json</code> or <code>-oapi-json</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Generate OpenAPI JSON specification for an Aspect Model</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--generate-openapi-yaml</code> or <code>-oapi-yaml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Generate OpenAPI YAML specification for an Aspect Model</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--generate-png-diagram</code> or <code>-png</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Generate diagram in PNG format</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--generate-static-java-classes</code> or <code>-static-java</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Generate static meta classes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--generate-svg-diagram</code> or <code>-svg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Generate diagram in SVG format</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--migrate</code> or <code>-m</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Automatically migrate an Aspect model to the latest Meta Model version</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--pretty-print</code> or <code>-p</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Print an Aspect model nicely formatted</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The following switches can be used in addition to the ones above to configure the generation:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 40%;">
+<col style="width: 60%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Switch</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--output-directory</code> or <code>-d</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set the directory where files are written, defaults to the current directory. This
+  applies to all switches that generate files.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--package-name</code> or <code>-pn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set the package name for generated Java files. This applies to <code>-java</code> and <code>-static-java</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--disable-jackson-annotations</code> or <code>-dja</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This option is to be used together with <code>-java</code> or
+  <code>-static-java</code> and will lead to generated Java code that does not contain
+  <a href="https://github.com/FasterXML/jackson">Jackson</a> Annotations.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--use-semantic-api-version</code> or <code>-sv</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This option is used together with <code>-oapi-json</code> or <code>-oapi-yaml</code> in order to use
+  the complete semantic version of the Aspect Model as the version of the Aspect API.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--aspect-api-base-url</code> or <code>-base-url</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This option is used together with <code>-oapi-json</code> or <code>-oapi-yaml</code> to provide the
+  base URL for the Aspect API OpenAPI specification.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--include-aspect-query-api</code> or <code>-query-api</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This option is used together with <code>-oapi-json</code> or <code>-oapi-yaml</code> to include
+  the path for the Query Aspect API Endpoint in the OpenAPI specification.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--aspect-exclude-paging</code> or <code>-no-paging</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This option is used to exclude the paging information in the OpenAPI specification. Paging is per default activated.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--aspect-time-based-paging</code> or <code>-atbp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This option is used to set the used paging strategy as time-based paging.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--aspect-offset-based-paging</code> or <code>-aobp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This option is used to set the used paging strategy as offset-based paging.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--aspect-cursor-based-paging</code> or <code>-acbp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This option is used to set the used paging strategy as cursor-based paging.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--aspect-resource-path</code> or <code>-arp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This option is used together with <code>-oapi-json</code> or <code>-oapi-yaml</code> to set the resource-path`
+  for the Aspect API endpoints.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--aspect-parameter-file</code> or <code>-apf</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This option is used together with <code>-oapi-json</code> or <code>-oapi-yaml</code> to set a file including
+  the schema description for the resource. For JSON the description has to be in json, for YAML it has to be in YAML</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="using-the-cli-to-create-a-json-openapi-specification"><a class="anchor" href="#using-the-cli-to-create-a-json-openapi-specification"></a>Using the CLI to create a JSON OpenAPI Specification</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Every specification is based on one Aspect, which needs a separately defined server URL where the given aspect will be.
+The URL will be defined as string with the <code>-base-url</code> command, i.e.: <a href="https://www.example.org" class="bare">https://www.example.org</a>.
+The default URL, using the above defined -base-url, would result in <a href="https://www.example.org/api/v1/{tenantId}/&lt;aspectName&gt" class="bare">https://www.example.org/api/v1/{tenantId}/&lt;aspectName&gt</a>;.
+By default the Aspect&#8217;s local name is used as path. The default path can be manipulated with the <code>--aspect-resource-path</code> switch.
+If the path is defined further, for example <code>--aspect-resource-path "/resources/{resourceId}"</code>, the resulting URL would be: <a href="https://www.example.org/api/v1/{tenantId}/resources/{resourceId}" class="bare">https://www.example.org/api/v1/{tenantId}/resources/{resourceId}</a>.</p>
+</div>
+<div class="paragraph">
+<p>It will be required to specify the parameter, in case there is an additional parameter defined.
+This has to be in JSON or in YAML, depending on the kind of specification chosen.
+For example:
+With the option <code>--aspect-resource-path "/resources/{resourceId}"</code> the generator constructs the URL <a href="https://www.example.org/api/v1/{tenantId}/resources/{resourceId}" class="bare">https://www.example.org/api/v1/{tenantId}/resources/{resourceId}</a>
+and then the <code>--aspect-parameter-file</code> defines the parameter resourceId in yaml:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>resourceId:
+  name: resourceId
+  in: path
+  description: An example resource Id.
+  required: true
+  schema:
+    type: string</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The full command would result in:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">java -jar bamm-cli-1.0.0.jar -i <em>AspectModel.ttl</em> -oapi-yaml -baseUrl "https://www.example.org"
+-arp "/resources/{resourceId}" -apf <em>fileLocation</em></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="models-directory-structure"><a class="anchor" href="#models-directory-structure"></a>Understanding the models directory structure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>An Aspect model file can contain an Aspect definition as well as other model elements that are defined in the same
+versioned namespace, as described in the <a href="../../../bamm-specification/snapshot/namespaces.html" class="page">Namespaces section of the
+specification</a>. Additionally, it is possible to split one versioned namespace across multiple files, for example to
+define a Characteristic that is usable in multiple Aspects into its own file. In order for BAMM CLI to be able
+to resolve references to such externally defined model elements, the model files must be organized in a directory
+structure as follows:</p>
+</div>
+<div class="paragraph">
+<p><code><em>namespace</em>/<em>version</em>/<em>name</em>.ttl</code></p>
+</div>
+<div class="paragraph">
+<p>where <em>namespace</em> corresponds to the hierarchical namespace that is part of the model element&#8217;s URN, e.g.
+<code>com.mycompany.myproduct</code> and <em>version</em> corresponds to the version of the namespace. The resulting directory structure
+then looks like the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code><em>models root</em>
+└── com.mycompany.myproduct
+    ├── 1.0.0
+    │   ├── MyAspect.ttl
+    │   ├── MyEntity.ttl
+    │   └── myProperty.ttl
+    └── 1.1.0
+        └── MyAspect.ttl</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The name of the directory shown as <em>models root</em> above can be chosen freely. The BAMM CLI will resolve the file path
+relative to the input file by following the folder structure described above. Each of the files in the <code>1.0.0</code> directory
+should therefore have an empty prefix declaration such as <code>@prefix : &lt;urn:bamm:com.mycompany.myproduct:1.0.0#&gt;</code>.</p>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script src="../../../_/js/vendor/lunr.min.js"></script>
+<script src="../../../_/js/vendor/search.js" id="search-script" data-base-path="../../.." data-page-path="/sds-developer-guide/1.0.0/tooling-guide/bamm-cli.html"></script>
+<script async src="../../../_/../search-index.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
